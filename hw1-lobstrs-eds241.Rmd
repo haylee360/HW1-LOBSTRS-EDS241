@@ -94,7 +94,6 @@ Step 2: Read & wrangle data
 rawdata <- read_csv(here("data", "spiny_abundance_sb_18.csv"), na = "-99999") %>% 
     clean_names()
 
-
 ```
 
 **c.** Create a new `df` named `tidydata`. Using the variable `site` (reef location) create a new variable `reef` as a `factor` and add the following labels in the order listed (i.e., re-order the `levels`):
@@ -135,19 +134,30 @@ Create new `df` named `spiny_counts`
 **e.** Create a new variable `mpa` with levels `MPA` and `non_MPA`. For our regression analysis create a numerical variable `treat` where MPA sites are coded `1` and non_MPA sites are coded `0`
 
 ```{r}
+# REMOVE NAS FROM WHOLE DF
 #HINT(d): Use `group_by()` & `summarize()` to provide the total number of lobsters observed at each site-year-transect row-observation. 
 spiny_counts <- tidydata %>% 
     group_by(site, year, transect) %>% 
-    summarize(counts = sum(count, na.rm = TRUE),
+    summarize(counts = as.integer(sum(count, na.rm = TRUE)),
               mean_size = mean(size_mm, na.rm = TRUE)) %>% 
+    ungroup() %>% 
     mutate(mpa = case_when(site %in% c("IVEE", "NAPL") ~ "MPA",
                            site %in% c("CARP", "MOHK", "AQUE") ~ "non_MPA"),
            treat = case_when(mpa == "MPA" ~ 1,
-                             mpa == "non_MPA" ~ 0))
+                             mpa == "non_MPA" ~ 0)) %>% 
+    drop_na()
 #HINT(e): Use `case_when()` to create the 3 new variable columns
+# mutate look across the data, for numeric. replace with na_real
+# mutate(across(anywhere there is NA replace with NA_real)
     
+```
+NAN is not a number 
+NA real is still a numeric missing value. 
+
+```{r}
 
 ```
+
 
 > NOTE: This step is crucial to the analysis. Check with a friend or come to TA/instructor office hours to make sure the counts are coded correctly!
 
@@ -205,10 +215,12 @@ beeswarm(mean_size ~ site, data = spiny_counts)
 ```{r}
 # USE: gt_summary::tbl_summary()
 spiny_counts %>% 
-    ungroup() %>% 
     dplyr::select(treat, counts, mean_size) %>% 
-    tbl_summary(by = treat)
-    
+    tbl_summary(by = treat, 
+                statistic = list(all_continuous() ~ "{mean} ({sd})"))
+# make tbl summary give mean (sd)
+# make it pretty
+
 ```
 
 ------------------------------------------------------------------------
@@ -238,7 +250,7 @@ check_model(m1_ols)
 **d.** Explain the results of the 4 diagnostic plots. Why are we getting this result?
 
 ```{r}
-check_model(m1_ols,  check = "qq" )
+check_model(m1_ols,  check = "qq")
 ```
 
 ```{r}
@@ -270,7 +282,9 @@ Step 5: Fitting GLMs
 
 #HINT2: For the second glm() argument `family` use the following specification option `family = poisson(link = "log")`
 
-m2_pois <- 
+m2_pois <- glm(counts ~ treat, 
+               data = spiny_counts,
+               family = poisson(link = "log"))
 
 ```
 
@@ -300,7 +314,8 @@ check_zeroinflation(m2_pois)
 
 # NOTE: The `glm.nb()` function does not require a `family` argument
 
-m3_nb <- 
+m3_nb <- glm.nb(count ~ treat,
+                data = spiny_counts)
 
 ```
 
@@ -353,7 +368,6 @@ Step 7: Building intuition - fixed effects
 **d.** Explain why the main effect for treatment is negative? \*Does this result make sense?
 
 ```{r}
-
 ff_counts <- spiny_counts %>% 
     mutate(year=as_factor(year))
     
