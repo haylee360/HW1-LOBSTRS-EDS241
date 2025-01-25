@@ -270,13 +270,13 @@ The predictor coefficient for the poisson model tells us that MPA sites have 23%
 
 **c.** Explain the statistical concept of dispersion and overdispersion in the context of this model.
 
-EDIT THIS CHANGE WORDS 
-Dispersion refers to the relationship between the variance of the observed data and the mean. In a perfectly fitting Poisson model, the dispersion is exactly 1, meaning the variance equals the mean. Overdispersion occurs when the variance is greater than the mean. This means our model underestimates the variability of the data due to possible missing variables, dependent and clustering counts, or a an overabundance of zero counts in the data.
+Dispersion refers to the Overdispersion in the context of this model means that the variance in the lobster counts between the treatment sites is greater than the mean of the lobster counts.
 
+EDIT THIS CHANGE WORDS Dispersion refers to the relationship between the variance of the observed data and the mean. In a perfectly fitting Poisson model, the dispersion is exactly 1, meaning the variance equals the mean. Overdispersion occurs when the variance is greater than the mean. This means our model underestimates the variability of the data due to possible missing variables, dependent and clustering counts, or a an overabundance of zero counts in the data.
 
 **d.** Compare results with previous model, explain change in the significance of the treatment effect
 
-The insignificant p-value for the OLS model tells us that any relationship we observed between the site treatment and the lobster counts could just be due to random chance. However, our poisson model does have a signicant treament effect, indicating it is very unlikely this result is due to chance alone. 
+The insignificant p-value for the OLS model tells us that any relationship we observed between the site treatment and the lobster counts could just be due to random chance. However, our poisson model does have a signicant treament effect, indicating it is very unlikely this result is due to chance alone.
 
 ```{r}
 #HINT1: Incidence Ratio Rate (IRR): Exponentiation of beta returns coefficient which is interpreted as the 'percent change' for a one unit increase in the predictor 
@@ -301,13 +301,19 @@ summ(m2_pois, model.fit = FALSE)
 check_model(m2_pois)
 ```
 
+Checking assumptions, it is clear that we are still is violating many assumptions of the poisson model. Our residuals are not uniform and there seems to be zero-inflation. Additionally, our data does not follow our posterior distribution. However, the variance does seem to be much more homogeneous, meaning we've improved slightly from our OLS model. There are also no influential observations. Overall, these results suggest we should search for a better model.
+
 ```{r}
 check_overdispersion(m2_pois)
 ```
 
+Our model is very overdispersed, indicating that we our variance is greater than our mean.
+
 ```{r}
 check_zeroinflation(m2_pois)
 ```
+
+Our model also displays zero-inflation because the number of observed zeroes is larger than the number of predicted data. This tells us we should consider a negative binomial model or a zero-inflated model.
 
 **g.** Fit a negative binomial model using the function glm.nb() from the package `MASS` and check model diagnostics
 
@@ -324,6 +330,9 @@ m3_nb <- glm.nb(counts ~ treat,
                 data = spiny_counts)
 
 summ(m3_nb, model.fit = FALSE)
+
+
+(exp(m3_nb$coefficients["treat"])-1)*100
 
 ```
 
@@ -343,7 +352,9 @@ check_predictions(m3_nb)
 check_model(m3_nb)
 ```
 
-------------------------------------------------------------------------
+We can see that our data fits the assumptions of the negative binomial model much better than the poisson model. Our residuals are more uniform, we have less zero-inflation, and our data follows our posterior distribution.
+
+## We can also see that the percent change in lobster observation as a result of the MPA site treatment is also 23%, which is the same as our poisson model.
 
 Step 6: Compare models
 
@@ -367,7 +378,8 @@ m2_est_poi = (exp(0.21)-1)*100  # % change = -23.37%%
 m3_est_log = (exp(0.21)-1)*100  # % change = -23.37%
 ```
 
-Yes, it seems like our data is robust. When we calculate the percent change in lobster counts, we get approximatley 23% across all three models we ran. 
+Yes, it seems like our data is robust. When we calculate the percent change in lobster counts, we get approximately 23% across all three models we ran. This tells us that our data is robust and that the treatment effect is stable across different model specifications.
+
 ## As a whole, the treatment effect does not seem to be robust.
 
 Step 7: Building intuition - fixed effects
@@ -418,7 +430,11 @@ The plot should have... - `year` on the x-axis - `counts` on the y-axis - `mpa` 
 # Hint 1: Group counts by `year` and `mpa` and calculate the `mean_count`
 # Hint 2: Convert variable `year` to a factor
 
-plot_counts <- 
+plot_counts <- ff_counts %>% 
+    group_by(year, mpa) %>% 
+    summarize(mean_count = mean(counts, na.rm = TRUE)) %>% 
+    ungroup() %>% 
+    mutate(year = as.factor(year))
 
 # plot_counts %>% ggplot() ...
 ```
