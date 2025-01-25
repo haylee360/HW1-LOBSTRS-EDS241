@@ -31,9 +31,7 @@ knitr::opts_chunk$set(eval=FALSE, warning = FALSE, message = FALSE )
 
 -   Your knitted presentation should meet the quality you'd submit to research colleagues or feel confident sharing publicly. Refer to the rubric for details about presentation standards.
 
-**Assignment submission :** Haylee Oyler
-With Emma Bea Mitchell, Tom Gibbens-Matsuyama, Ian Morris-Sibaja
-------------------------------------------------------------------------
+**Assignment submission :** Haylee Oyler With Emma Bea Mitchell, Tom Gibbens-Matsuyama, Ian Morris-Sibaja ------------------------------------------------------------------------
 
 ```{r}
 
@@ -116,11 +114,6 @@ tidydata <- rawdata |>
                                     "Isla Vista", 
                                     "Naples")))
 
-
-# Check that the levels are correctly ordered
-ggplot(tidydata, aes(reef)) +
-    geom_bar()
-    
 ```
 
 Create new `df` named `spiny_counts`
@@ -145,19 +138,16 @@ spiny_counts <- tidydata %>%
                            site %in% c("CARP", "MOHK", "AQUE") ~ "non_MPA"),
            treat = case_when(mpa == "MPA" ~ 1,
                              mpa == "non_MPA" ~ 0)) %>% 
-    drop_na()
+    mutate(across(where(is.numeric), ~(ifelse(is.na(.), NA_real_, (.)))))
+
+
 #HINT(e): Use `case_when()` to create the 3 new variable columns
 # mutate look across the data, for numeric. replace with na_real
 # mutate(across(anywhere there is NA replace with NA_real)
     
 ```
-NAN is not a number 
-NA real is still a numeric missing value. 
 
-```{r}
-
-```
-
+NAN is not a number NA real is still a numeric missing value.
 
 > NOTE: This step is crucial to the analysis. Check with a friend or come to TA/instructor office hours to make sure the counts are coded correctly!
 
@@ -208,8 +198,6 @@ spiny_counts %>%
 beeswarm(mean_size ~ site, data = spiny_counts)
 ```
 
-
-
 **c.** Compare means of the outcome by treatment group. Using the `tbl_summary()` function from the package [`gt_summary`](https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html)
 
 ```{r}
@@ -240,18 +228,21 @@ summ(m1_ols, model.fit = FALSE)
 
 ```
 
+Our intercept coefficient tells us that for Non-MPA sites, the estimated lobster count is approximately 23 lobsters. The predictor coefficient tells us that for MPA sites, the estimated lobster count for MPA sites is approximately 28 lobsters, which is The estimated treatment effect of MPA sites is 5 lobsters.
+
 **c.** Check the model assumptions using the `check_model` function from the `performance` package
 
 ```{r}
 check_model(m1_ols)
 ```
 
-
 **d.** Explain the results of the 4 diagnostic plots. Why are we getting this result?
 
 ```{r}
 check_model(m1_ols,  check = "qq")
 ```
+
+Our residuals do not fall along the line, therefore they are not normal. This is likely because we have chosen an incorrectly parameterized model for our dataset and system.
 
 ```{r}
 check_model(m1_ols, check = "normality")
@@ -265,6 +256,8 @@ check_model(m1_ols, check = "homogeneity")
 check_model(m1_ols, check = "pp_check")
 ```
 
+The first two plots tell us that our residuals are not normally distributed, which violates an assumption of OLS. The third plot tells us that we do not have the same variance across all values of X, or in other words, it is not homoscedastic. The posterior predictive check did not accurately predict our data. The combination of all of these things tells us that it is likely because we have chosen an incorrectly model for our dataset and system.
+
 ------------------------------------------------------------------------
 
 Step 5: Fitting GLMs
@@ -273,9 +266,17 @@ Step 5: Fitting GLMs
 
 **b.** Interpret the predictor coefficient in your own words. Use full sentences and write your interpretation of the results to be as clear as possible to a non-academic audience.
 
+The predictor coefficient for the poisson model tells us that MPA sites have 23% more lobsters than the non-MPA sites.
+
 **c.** Explain the statistical concept of dispersion and overdispersion in the context of this model.
 
+EDIT THIS CHANGE WORDS 
+Dispersion refers to the relationship between the variance of the observed data and the mean. In a perfectly fitting Poisson model, the dispersion is exactly 1, meaning the variance equals the mean. Overdispersion occurs when the variance is greater than the mean. This means our model underestimates the variability of the data due to possible missing variables, dependent and clustering counts, or a an overabundance of zero counts in the data.
+
+
 **d.** Compare results with previous model, explain change in the significance of the treatment effect
+
+The insignificant p-value for the OLS model tells us that any relationship we observed between the site treatment and the lobster counts could just be due to random chance. However, our poisson model does have a signicant treament effect, indicating it is very unlikely this result is due to chance alone. 
 
 ```{r}
 #HINT1: Incidence Ratio Rate (IRR): Exponentiation of beta returns coefficient which is interpreted as the 'percent change' for a one unit increase in the predictor 
@@ -286,6 +287,10 @@ m2_pois <- glm(counts ~ treat,
                data = spiny_counts,
                family = poisson(link = "log"))
 
+summ(m2_pois, model.fit = FALSE)
+
+
+(exp(m2_pois$coefficients["treat"])-1)*100
 ```
 
 **e.** Check the model assumptions. Explain results.
@@ -308,14 +313,17 @@ check_zeroinflation(m2_pois)
 
 **h.** In 1-2 sentences explain rationale for fitting this GLM model.
 
+We choose to fit with a negative binomial because our poisson model showed overdispersion. The negative binomial is a generalization of the poisson, but allows for the variance to be larger than the mean, which helps account for the overdispersion.
+
 **i.** Interpret the treatment estimate result in your own words. Compare with results from the previous model.
 
 ```{r}
-
 # NOTE: The `glm.nb()` function does not require a `family` argument
 
-m3_nb <- glm.nb(count ~ treat,
+m3_nb <- glm.nb(counts ~ treat,
                 data = spiny_counts)
+
+summ(m3_nb, model.fit = FALSE)
 
 ```
 
@@ -344,35 +352,47 @@ Step 6: Compare models
 **c.** Write a short paragraph comparing the results. Is the treatment effect `robust` or stable across the model specifications.
 
 ```{r}
-
-export_summs(# ADD MODELS
+export_summs(m1_ols, m2_pois, m3_nb, 
              model.names = c("OLS","Poisson", "NB"),
              statistics = "none")
 
 ```
 
-------------------------------------------------------------------------
+```{r}
+# Calculate percent change in waste piles in each model:
+
+# ratio of treatment beta coeff / intercept
+m1_est_ols = (5.36/22.73)*100  # % change = 23.58%
+m2_est_poi = (exp(0.21)-1)*100  # % change = -23.37%%
+m3_est_log = (exp(0.21)-1)*100  # % change = -23.37%
+```
+
+Yes, it seems like our data is robust. When we calculate the percent change in lobster counts, we get approximatley 23% across all three models we ran. 
+## As a whole, the treatment effect does not seem to be robust.
 
 Step 7: Building intuition - fixed effects
 
 **a.** Create new `df` with the `year` variable converted to a factor
 
-**b.** Run the following OLS model using `lm()`
+**b.** Run the following negative binomial model using `glm.nb()`
 
--   Use the following specification for the outcome `log(counts+1)`
--   Estimate fixed effects for `year`
--   Include an interaction term between variables `treat` and `year`
+-   Add fixed effects for `year` (i.e., dummy coefficients)
+-   Include an interaction term between variables `treat` & `year` (`treat*year`)
 
 **c.** Take a look at the regression output. Each coefficient provides a comparison or the difference in means for a specific sub-group in the data. Informally, describe the what the model has estimated at a conceptual level (NOTE: you do not have to interpret coefficients individually)
 
 **d.** Explain why the main effect for treatment is negative? \*Does this result make sense?
 
 ```{r}
+
 ff_counts <- spiny_counts %>% 
     mutate(year=as_factor(year))
     
-m5_fixedeffs <- lm(
-    log(counts+1) ~ treat*year,
+m5_fixedeffs <- glm.nb(
+    counts ~ 
+        treat +
+        year +
+        treat*year,
     data = ff_counts)
 
 summ(m5_fixedeffs, model.fit = FALSE)
@@ -384,12 +404,10 @@ summ(m5_fixedeffs, model.fit = FALSE)
 
 ```{r}
 
-# Hint 1: Group counts by `year` and `mpa` and calculate the `mean_count`
-# Hint 2: Convert variable `year` to a factor
-
 interact_plot(m5_fixedeffs, pred = year, modx = treat,
-              outcome.scale = "response")
+              outcome.scale = "link") # NOTE: y-axis on log-scale
 
+# HINT: Change `outcome.scale` to "response" to convert y-axis scale to counts
 ```
 
 **g.** Using `ggplot()` create a plot in same style as the previous `interaction plot`, but displaying the original scale of the outcome variable (lobster counts). This type of plot is commonly used to show how the treatment effect changes across discrete time points (i.e., panel data).
