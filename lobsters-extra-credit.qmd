@@ -1,0 +1,169 @@
+---
+title: "Lobsters Extra Credit"
+author: "Haylee Oyler"
+format: html
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+# Load libraries
+library(tidyverse)
+library(here)
+library(janitor)
+library(estimatr)  
+library(performance)
+library(jtools)
+library(gt)
+library(gtsummary)
+library(beeswarm)
+library(naniar)
+library(MASS) ## NOTE: The `select()` function is masked. Use: `dplyr::select()` ##
+library(interactions) 
+library(ggridges)
+```
+
+```{r}
+# Read in data and clean names and NAs
+rawdata24 <- read_csv(here("data", "lobster_sbchannel_24.csv"), na = "-99999") %>% 
+    clean_names()
+```
+```{r}
+# Refactor our sites into a clean data frame
+tidydata24 <- rawdata24 |>
+    mutate(reef = factor(site, order = TRUE, 
+                         levels = c("AQUE", 
+                                    "CARP", 
+                                    "MOHK", 
+                                    "IVEE", 
+                                    "NAPL"), 
+                         labels = c("Arroyo Quemado", 
+                                    "Carpenteria", 
+                                    "Mohawk", 
+                                    "Isla Vista", 
+                                    "Naples")))
+
+```
+
+```{r}
+# Add a treatment variable by MPA site and a mean size variable
+spiny_counts24 <- tidydata24 %>% 
+    group_by(site, year, transect) %>% 
+    summarize(counts = as.integer(sum(count, na.rm = TRUE)),
+              mean_size = mean(size_mm, na.rm = TRUE)) %>% 
+    ungroup() %>% 
+    mutate(mpa = case_when(site %in% c("IVEE", "NAPL") ~ "MPA",
+                           site %in% c("CARP", "MOHK", "AQUE") ~ "non_MPA"),
+           treat = case_when(mpa == "MPA" ~ 1,
+                             mpa == "non_MPA" ~ 0)) %>% 
+    mutate(across(where(is.numeric), ~(ifelse(is.na(.), NA_real_, (.)))))
+```
+
+```{r}
+# plot 1: Ridge plot of counts grouped by reef site
+spiny_counts24 %>% 
+    ggplot(aes(x = counts, y = site, fill = after_stat(x))) +
+    geom_density_ridges_gradient(quantile_lines = TRUE,
+                         rel_min_height = 0.01,
+                         quantiles = 4,
+                         alpha = 0.5,
+                         scale = 1.8) +
+    scale_fill_gradientn(colors = c("#2C5374","#849BB4", "#D9E7EC", "#EF8080", "#8B3A3A")) +
+    labs(title = "Lobster Counts by Reef Site with Median Counts",
+         x = "Lobster count", 
+         y = "Reef site",
+         fill = "Lobster count") +
+    theme_minimal()
+
+# plot 2: Density of counts grouped by MPA status
+spiny_counts24 %>% 
+    ggplot(aes(x = counts)) +
+    geom_density(fill = "blue") +
+    facet_wrap(~mpa) +
+    geom_vline(aes(xintercept = median(counts)), color = "red", linetype = "dashed") + 
+    labs(title = "Lobster Counts by MPA Status with Median Lobster Count",
+         x = "Lobster Counts",
+         y = "Density") +
+    theme_minimal()
+
+# plot 3: Violin plot of counts grouped by year
+spiny_counts24 %>% 
+    ggplot(aes(x = as.factor(year), y = counts)) +
+    geom_violin(fill = "green", trim = TRUE, alpha=0.8) +
+    stat_summary(fun.y = mean, geom = "point", color = "purple", size = 2, aes(fill="Mean Lobster Count"))  +
+    labs(title = "Lobster Counts by Year",
+         x = "Year",
+         y = "Lobster Counts",
+         fill = " ") +
+    theme_minimal()
+
+# plot 4: Lobster size  grouped by site
+beeswarm(mean_size ~ site, data = spiny_counts24, 
+         xlab = "Site", 
+         ylab="Lobster size (mm)", 
+         main="Lobster Size by Site") 
+```
+
+```{r}
+# View mean outcomes by site treatment
+spiny_counts24 %>% 
+    dplyr::select(treat, counts, mean_size) %>% 
+    tbl_summary(by = treat, 
+                statistic = list(all_continuous() ~ "{mean} ({sd})"))
+```
+
+```{r}
+# Linear model of counts as a function of treatment
+m1_ols_24 <- lm(counts ~ treat, data = spiny_counts24)
+
+summ(m1_ols_24, model.fit = FALSE) 
+```
+```{r}
+check_model(m1_ols_24)
+```
+```{r}
+# Possion model of counts as a function of treatment
+m2_pois_24 <- glm(counts ~ treat, 
+               data = spiny_counts24,
+               family = poisson(link = "log"))
+
+summ(m2_pois_24, model.fit = FALSE)
+
+# Un-log our treatment into percent change so we can interpret it
+(exp(m2_pois_24$coefficients["treat"])-1)*100
+```
+```{r}
+check_model(m2_pois_24)
+```
+
+```{r}
+# Negative binomial model of counts as a function of treatment
+m3_nb_24 <- glm.nb(counts ~ treat,
+                data = spiny_counts24)
+
+summ(m3_nb_24, model.fit = FALSE)
+
+
+# Un-log our treatment into percent change so we can interpret it
+(exp(m3_nb_24$coefficients["treat"])-1)*100
+```
+
+```{r}
+check_model(m3_nb_24)
+```
+```{r}
+# View all three model results side by side
+export_summs(m1_ols_24, m2_pois_24, m3_nb_24, 
+             model.names = c("OLS","Poisson", "NB"),
+             statistics = "none")
+
+# Calculate percent change in lobster counts in each model:
+
+# ratio of treatment beta coeff / intercept
+m1_est_ols = (7.72/27.27)*100  # % change = 28.31%
+
+m2_est_poi = (exp(0.25)-1)*100  # % change = -28.40%%
+m3_est_log = (exp(0.25)-1)*100  # % change = -28.40%
+```
+

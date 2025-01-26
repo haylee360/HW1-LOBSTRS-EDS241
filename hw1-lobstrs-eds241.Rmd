@@ -4,9 +4,9 @@ subtitle: "Assessing the Impact of Marine Protected Areas (MPAs) at 5 Reef Sites
 author: "Haylee Oyler"
 date: "1/8/2024 (Due 1/26)"
 output: 
+    pdf_document: default
     html_document:
       theme: flatly
-    pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -63,13 +63,13 @@ Reed D. 2019. SBC LTER: Reef: Abundance, size and fishing effort for California 
 
 ### **Introduction**
 
-You're about to dive into some deep data collected from five reef sites in Santa Barbara County, all about the abundance of California spiny lobsters! 🦞 Data was gathered by divers annually from 2012 to 2018 across Naples, Mohawk, Isla Vista, Carpinteria, and Arroyo Quemado reefs.
+You're about to dive into some deep data collected from five reef sites in Santa Barbara County, all about the abundance of California spiny lobsters! Data was gathered by divers annually from 2012 to 2018 across Naples, Mohawk, Isla Vista, Carpinteria, and Arroyo Quemado reefs.
 
 Why lobsters? Well, this sample provides an opportunity to evaluate the impact of Marine Protected Areas (MPAs) established on January 1, 2012 (Reed, 2019). Of these five reefs, Naples, and Isla Vista are MPAs, while the other three are not protected (non-MPAs). Comparing lobster health between these protected and non-protected areas gives us the chance to study how commercial and recreational fishing might impact these ecosystems.
 
 We will consider the MPA sites the `treatment` group and use regression methods to explore whether protecting these reefs really makes a difference compared to non-MPA sites (our control group). In this assignment, we’ll think deeply about which causal inference assumptions hold up under the research design and identify where they fall short.
 
-Let’s break it down step by step and see what the data reveals! 📊
+Let’s break it down step by step and see what the data reveals!
 
 ![](figures/map-5reefs.png)
 
@@ -131,7 +131,6 @@ Create new `df` named `spiny_counts`
 **e.** Create a new variable `mpa` with levels `MPA` and `non_MPA`. For our regression analysis create a numerical variable `treat` where MPA sites are coded `1` and non_MPA sites are coded `0`
 
 ```{r}
-# REMOVE NAS FROM WHOLE DF
 #HINT(d): Use `group_by()` & `summarize()` to provide the total number of lobsters observed at each site-year-transect row-observation. 
 
 # Add a treatment variable by MPA site and a mean size variable
@@ -183,41 +182,54 @@ Create a plot of lobster **size** :
 ```{r, eval=TRUE}
 # plot 1: Ridge plot of counts grouped by reef site
 spiny_counts %>% 
-    ggplot(aes(x = counts, y = site)) +
-    geom_density_ridges2(quantile_lines = TRUE,
-                         quantiles = 2,
+    ggplot(aes(x = counts, y = site, fill = after_stat(x))) +
+    geom_density_ridges_gradient(quantile_lines = TRUE,
+                         rel_min_height = 0.01,
+                         quantiles = 4,
                          alpha = 0.5,
-                         fill = "cornflowerblue") +
+                         scale = 1.8) +
+    scale_fill_gradientn(colors = c("#2C5374","#849BB4", "#D9E7EC", "#EF8080", "#8B3A3A")) +
     labs(title = "Lobster Counts by Reef Site with Median Counts",
          x = "Lobster count", 
-         y = "Reef site") 
+         y = "Reef site",
+         fill = "Lobster count") +
+    theme_minimal()
 
 # plot 2: Density of counts grouped by MPA status
 spiny_counts %>% 
     ggplot(aes(x = counts)) +
     geom_density(fill = "blue") +
     facet_wrap(~mpa) +
-    labs(title = "Lobster Counts by MPA Status",
+    geom_vline(aes(xintercept = median(counts), fill="Median Lobster Count"), color = "red", linetype = "dashed", legend=TRUE) + 
+    labs(title = "Lobster Counts by MPA Status with Median Lobster Count",
          x = "Lobster Counts",
-         y = "Density")
+         y = "Density") +
+    theme_minimal()
 
 # plot 3: Violin plot of counts grouped by year
 spiny_counts %>% 
     ggplot(aes(x = as.factor(year), y = counts)) +
     geom_violin(fill = "green", trim = TRUE, alpha=0.8) +
-    stat_summary(fun.y = mean, geom = "point", color = "purple", size = 2)  +
+    stat_summary(fun.y = mean, geom = "point", color = "purple", size = 2, aes(fill="Mean Lobster Count"))  +
     labs(title = "Lobster Counts by Year",
          x = "Year",
-         y = "Lobster Counts")
+         y = "Lobster Counts",
+         fill = " ") +
+    theme_minimal()
 
 # plot 4: Lobster size  grouped by site
-beeswarm(mean_size ~ site, data = spiny_counts, xlab = "Site", ylab="Lobster size", main="Lobster Size by Site") 
+beeswarm(mean_size ~ site, data = spiny_counts, 
+         xlab = "Site", 
+         ylab="Lobster size (mm)", 
+         main="Lobster Size by Site") 
 ```
 
 **c.** Compare means of the outcome by treatment group. Using the `tbl_summary()` function from the package [`gt_summary`](https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html)
 
 ```{r}
 # USE: gt_summary::tbl_summary()
+
+# View mean outcomes by site treatment
 spiny_counts %>% 
     dplyr::select(treat, counts, mean_size) %>% 
     tbl_summary(by = treat, 
@@ -392,8 +404,8 @@ export_summs(m1_ols, m2_pois, m3_nb,
 # ratio of treatment beta coeff / intercept
 m1_est_ols = (5.36/22.73)*100  # % change = 23.58%
 
-m2_est_poi = (exp(0.21)-1)*100  # % change = -23.37%%
-m3_est_log = (exp(0.21)-1)*100  # % change = -23.37%
+m2_est_poi = (exp(0.21)-1)*100  # % change = 23.37%
+m3_est_log = (exp(0.21)-1)*100  # % change = 23.37%
 ```
 
 **Across all three models, we see a percent change of approximately a 23% increase in lobster counts in MPA sites compared to non-MPA sites. It appears our treatment effect is stable. When we calculate the percent change in lobster counts, we get approximately 23% across all three models we ran. This tells us that the treatment effect is stable across different model specifications.**
@@ -490,12 +502,17 @@ b.  Explain why spillover is an issue for the identification of causal effects
 
 c.  How does spillover relate to impact in this research setting?
 
-a.  Discuss the following causal inference assumptions in the context of the MPA treatment effect estimator. Evaluate if each of the assumption are reasonable:
+    **In general, spillover has a positive impact because it means benefits to lobster populations in the MPA sites can spread more generally around the central coast region, including the non-MPA sites as well. The overall effect is a net positive for lobster populations. In the case of this specific research question, spillover has a negative impact because it means that we cannot clearly delineate where lobster population counts are actually higher.**
+
+d.  Discuss the following causal inference assumptions in the context of the MPA treatment effect estimator. Evaluate if each of the assumption are reasonable:
 
     1)  SUTVA: Stable Unit Treatment Value assumption
-    2)  Excludability assumption
 
-------------------------------------------------------------------------
+    **In this context, SUTVA refers to the idea that our treatment effect estimator of lobster counts is only influenced by the one assigned treatment effect (MPA site or non-MPA site). This assumption would be violated if there are spillover effects, something that we discussed earlier is a possibility given the geographic proximity of all the sites as a whole. As we have no evidence as to whether spillover is occurring and I personally don't know enough about lobster migration to say whether it's likley or not, I would say it's reasonable but I would be very cautious about interpreting results. Really, it would be great to get more information to know for sure.**
+
+    1)  Excludability assumption
+
+    **In this context, the excludability assumption refers to the idea that our outcome of lobster counts is affected *only* by the treatment. As we discussed earlier, the MPA sites and non-MPA sites are not perfect counterfactuals. This means that there will be microsite variation in habitat, food, climate, etc. that can influence our lobster population counts. But given that true counterfactuals almost never actually exist in the real world, I would say the excludabililty assumption is reasonable becuase the sites are close enough.**
 
 # EXTRA CREDIT
 
@@ -508,3 +525,151 @@ c.  Compare and contrast results with the analysis from the 2012-2018 data sampl
 ------------------------------------------------------------------------
 
 ![](figures/spiny1.png)
+
+
+### Extra Credit
+```{r}
+# Read in data and clean names and NAs
+rawdata24 <- read_csv(here("data", "lobster_sbchannel_24.csv"), na = "-99999") %>% 
+    clean_names()
+```
+
+```{r}
+# Refactor our sites into a clean data frame
+tidydata24 <- rawdata24 |>
+    mutate(reef = factor(site, order = TRUE, 
+                         levels = c("AQUE", 
+                                    "CARP", 
+                                    "MOHK", 
+                                    "IVEE", 
+                                    "NAPL"), 
+                         labels = c("Arroyo Quemado", 
+                                    "Carpenteria", 
+                                    "Mohawk", 
+                                    "Isla Vista", 
+                                    "Naples")))
+
+```
+
+```{r}
+# Add a treatment variable by MPA site and a mean size variable
+spiny_counts24 <- tidydata24 %>% 
+    group_by(site, year, transect) %>% 
+    summarize(counts = as.integer(sum(count, na.rm = TRUE)),
+              mean_size = mean(size_mm, na.rm = TRUE)) %>% 
+    ungroup() %>% 
+    mutate(mpa = case_when(site %in% c("IVEE", "NAPL") ~ "MPA",
+                           site %in% c("CARP", "MOHK", "AQUE") ~ "non_MPA"),
+           treat = case_when(mpa == "MPA" ~ 1,
+                             mpa == "non_MPA" ~ 0)) %>% 
+    mutate(across(where(is.numeric), ~(ifelse(is.na(.), NA_real_, (.)))))
+```
+
+```{r}
+# plot 1: Ridge plot of counts grouped by reef site
+spiny_counts24 %>% 
+    ggplot(aes(x = counts, y = site, fill = after_stat(x))) +
+    geom_density_ridges_gradient(quantile_lines = TRUE,
+                         rel_min_height = 0.01,
+                         quantiles = 4,
+                         alpha = 0.5,
+                         scale = 1.8) +
+    scale_fill_gradientn(colors = c("#2C5374","#849BB4", "#D9E7EC", "#EF8080", "#8B3A3A")) +
+    labs(title = "Lobster Counts by Reef Site with Median Counts",
+         x = "Lobster count", 
+         y = "Reef site",
+         fill = "Lobster count") +
+    theme_minimal()
+
+# plot 2: Density of counts grouped by MPA status
+spiny_counts24 %>% 
+    ggplot(aes(x = counts)) +
+    geom_density(fill = "blue") +
+    facet_wrap(~mpa) +
+    geom_vline(aes(xintercept = median(counts)), color = "red", linetype = "dashed") + 
+    labs(title = "Lobster Counts by MPA Status with Median Lobster Count",
+         x = "Lobster Counts",
+         y = "Density") +
+    theme_minimal()
+
+# plot 3: Violin plot of counts grouped by year
+spiny_counts24 %>% 
+    ggplot(aes(x = as.factor(year), y = counts)) +
+    geom_violin(fill = "green", trim = TRUE, alpha=0.8) +
+    stat_summary(fun.y = mean, geom = "point", color = "purple", size = 2, aes(fill="Mean Lobster Count"))  +
+    labs(title = "Lobster Counts by Year",
+         x = "Year",
+         y = "Lobster Counts",
+         fill = " ") +
+    theme_minimal()
+
+# plot 4: Lobster size  grouped by site
+beeswarm(mean_size ~ site, data = spiny_counts24, 
+         xlab = "Site", 
+         ylab="Lobster size (mm)", 
+         main="Lobster Size by Site") 
+```
+
+```{r}
+# View mean outcomes by site treatment
+spiny_counts24 %>% 
+    dplyr::select(treat, counts, mean_size) %>% 
+    tbl_summary(by = treat, 
+                statistic = list(all_continuous() ~ "{mean} ({sd})"))
+```
+
+```{r}
+# Linear model of counts as a function of treatment
+m1_ols_24 <- lm(counts ~ treat, data = spiny_counts24)
+
+summ(m1_ols_24, model.fit = FALSE) 
+```
+```{r}
+check_model(m1_ols_24)
+```
+```{r}
+# Possion model of counts as a function of treatment
+m2_pois_24 <- glm(counts ~ treat, 
+               data = spiny_counts24,
+               family = poisson(link = "log"))
+
+summ(m2_pois_24, model.fit = FALSE)
+
+# Un-log our treatment into percent change so we can interpret it
+(exp(m2_pois_24$coefficients["treat"])-1)*100
+```
+```{r}
+check_model(m2_pois_24)
+```
+
+```{r}
+# Negative binomial model of counts as a function of treatment
+m3_nb_24 <- glm.nb(counts ~ treat,
+                data = spiny_counts24)
+
+summ(m3_nb_24, model.fit = FALSE)
+
+
+# Un-log our treatment into percent change so we can interpret it
+(exp(m3_nb_24$coefficients["treat"])-1)*100
+```
+
+```{r}
+check_model(m3_nb_24)
+```
+```{r}
+# View all three model results side by side
+export_summs(m1_ols_24, m2_pois_24, m3_nb_24, 
+             model.names = c("OLS","Poisson", "NB"),
+             statistics = "none")
+
+# Calculate percent change in lobster counts in each model:
+
+# ratio of treatment beta coeff / intercept
+m1_est_ols = (7.72/27.27)*100  # % change = 28.31%
+
+m2_est_poi = (exp(0.25)-1)*100  # % change = -28.40%%
+m3_est_log = (exp(0.25)-1)*100  # % change = -28.40%
+```
+
+
