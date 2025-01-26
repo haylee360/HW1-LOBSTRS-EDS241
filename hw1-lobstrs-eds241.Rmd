@@ -4,9 +4,11 @@ subtitle: "Assessing the Impact of Marine Protected Areas (MPAs) at 5 Reef Sites
 author: "Haylee Oyler"
 date: "1/8/2024 (Due 1/26)"
 output: 
-    pdf_document: default
     html_document:
       theme: flatly
+    pdf_document: default
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -382,8 +384,6 @@ check_model(m3_nb)
 
 **We can see that our data fits the assumptions of the negative binomial model much better than the poisson model. Our residuals are uniform, we have very little overdispersion and zero-inflation, and our data follows our posterior distribution.**
 
-## We can also see that the percent change in lobster observation as a result of the MPA site treatment is also 23%, which is the same as our poisson model.
-
 Step 6: Compare models
 
 **a.** Use the `export_summ()` function from the `jtools` package to look at the three regression models you fit side-by-side.
@@ -408,9 +408,7 @@ m2_est_poi = (exp(0.21)-1)*100  # % change = 23.37%
 m3_est_log = (exp(0.21)-1)*100  # % change = 23.37%
 ```
 
-**Across all three models, we see a percent change of approximately a 23% increase in lobster counts in MPA sites compared to non-MPA sites. It appears our treatment effect is stable. When we calculate the percent change in lobster counts, we get approximately 23% across all three models we ran. This tells us that the treatment effect is stable across different model specifications.**
-
-## As a whole, the treatment effect does not seem to be robust.
+**Across all three models, we see a percent change of approximately a 23% increase in lobster counts in MPA sites compared to non-MPA sites. The magnitude and the direction of the treatment effect remained constant even as we varied our statistical assumptions in the underlying model selection. This tells us that the treatment effect is stable across different model specifications, indicating that our finding is robust.**
 
 Step 7: Building intuition - fixed effects
 
@@ -482,10 +480,11 @@ plot_counts <- ff_counts %>%
 plot_counts %>% ggplot(aes(x = year, y = mean_count, color = mpa, group=mpa)) +
     geom_point() +
     geom_line() +
-    labs(title = "Average Lobster Counts by Year and MPA Status",
+    labs(title = "Average Lobster Counts by Year and MPA Status from 2012-2018",
          x = "Year",
          y = "Mean Lobster Counts",
-         color = "MPA Status")
+         color = "MPA Status") +
+    theme_minimal()
 ```
 
 ------------------------------------------------------------------------
@@ -526,8 +525,8 @@ c.  Compare and contrast results with the analysis from the 2012-2018 data sampl
 
 ![](figures/spiny1.png)
 
-
 ### Extra Credit
+
 ```{r}
 # Read in data and clean names and NAs
 rawdata24 <- read_csv(here("data", "lobster_sbchannel_24.csv"), na = "-99999") %>% 
@@ -565,6 +564,7 @@ spiny_counts24 <- tidydata24 %>%
     mutate(across(where(is.numeric), ~(ifelse(is.na(.), NA_real_, (.)))))
 ```
 
+### Preliminary Visualization
 ```{r}
 # plot 1: Ridge plot of counts grouped by reef site
 spiny_counts24 %>% 
@@ -618,15 +618,21 @@ spiny_counts24 %>%
                 statistic = list(all_continuous() ~ "{mean} ({sd})"))
 ```
 
+### Linear Model 2012-2024
 ```{r}
 # Linear model of counts as a function of treatment
 m1_ols_24 <- lm(counts ~ treat, data = spiny_counts24)
 
 summ(m1_ols_24, model.fit = FALSE) 
 ```
+
 ```{r}
 check_model(m1_ols_24)
 ```
+
+Similar to our OLS model for the 2018 data, OLS does not fit our 2024 data well. The residuals are not normal and our variance is not homogeneous, both of which violate assumptions of OLS. Additionally, the posterior predictive check did not accurately predict our data and our data itself does not appear to display a linear relationship. We will move on from OLS to try a poisson model
+
+### Poisson Model 2012-2024
 ```{r}
 # Possion model of counts as a function of treatment
 m2_pois_24 <- glm(counts ~ treat, 
@@ -638,9 +644,17 @@ summ(m2_pois_24, model.fit = FALSE)
 # Un-log our treatment into percent change so we can interpret it
 (exp(m2_pois_24$coefficients["treat"])-1)*100
 ```
+
 ```{r}
 check_model(m2_pois_24)
+check_overdispersion(m2_pois_24)
+check_zeroinflation(m2_pois_24)
+
 ```
+
+Checking assumptions, it is clear that we are still is violating many assumptions of the poisson model. Our residuals are not uniform, our data is overdispersed, and there is zero-inflation present. Additionally, our data does not follow our posterior distribution. However, the variance does seem to be much more homogeneous, meaning we've improved slightly from our OLS model. There are also no influential observations. Next, we will turn to a negative binomial model because of the overdispersion.
+
+### Negative Binomial Model 2012-2014
 
 ```{r}
 # Negative binomial model of counts as a function of treatment
@@ -657,6 +671,10 @@ summ(m3_nb_24, model.fit = FALSE)
 ```{r}
 check_model(m3_nb_24)
 ```
+
+The negative binomial model performed the best out of all our model selections. This tracks with what we discovered when model-fitting for the 2018 lobster data. The residuals are uniform, we have very little overdispersion and zero-inflation, and our data follows our posterior distribution.
+
+### Compare Model Results
 ```{r}
 # View all three model results side by side
 export_summs(m1_ols_24, m2_pois_24, m3_nb_24, 
@@ -666,10 +684,69 @@ export_summs(m1_ols_24, m2_pois_24, m3_nb_24,
 # Calculate percent change in lobster counts in each model:
 
 # ratio of treatment beta coeff / intercept
-m1_est_ols = (7.72/27.27)*100  # % change = 28.31%
+m1_est_ols_24 = (7.72/27.27)*100  # % change = 28.31%
 
-m2_est_poi = (exp(0.25)-1)*100  # % change = -28.40%%
-m3_est_log = (exp(0.25)-1)*100  # % change = -28.40%
+m2_est_poi_24 = (exp(0.25)-1)*100  # % change = -28.40%%
+m3_est_log_24 = (exp(0.25)-1)*100  # % change = -28.40%
 ```
 
+As with our above analysis, the 2024 data appears robust as we see a stable treatment effect estimate of a 28% increase in lobster count in MPA sites compared to non-MPA sites.
 
+### Examine Fixed Effects by Including Year
+
+```{r}
+# Convert year to factor
+ff_counts24 <- spiny_counts24 %>% 
+    mutate(year=as_factor(year))
+
+# Negative binomial model with fixed effects
+m4_fixedeffs24 <- glm.nb(
+    counts ~ 
+        treat +
+        year +
+        treat*year,
+    data = ff_counts24)
+
+summ(m4_fixedeffs24, model.fit = FALSE)
+```
+
+```{r}
+
+# Calculate the mean lobster count by year and site
+plot_counts24 <- spiny_counts24 %>% 
+    mutate(year = as.factor(year)) %>% 
+    group_by(year, mpa) %>% 
+    summarize(mean_count = mean(counts, na.rm = TRUE)) %>% 
+    ungroup() %>%
+    mutate(year = as.factor(year))
+
+# Plot mean lobster counts by year and MPA status
+plot_counts24 %>% ggplot(aes(x = year, y = mean_count, color = mpa, group=mpa)) +
+    geom_point() +
+    geom_line() +
+    labs(title = "Average Lobster Counts by Year and MPA Status from 2012-2024",
+         x = "Year",
+         y = "Mean Lobster Counts",
+         color = "MPA Status") +
+    theme_minimal()
+```
+
+### Comparing 2012-2018 and 2012-2024 Results
+
+```{r}
+# Compare all 6 models side by side
+export_summs(m1_ols, m2_pois, m3_nb, m1_ols_24, m2_pois_24, m3_nb_24,
+             model.names = c("OLS","Poisson", "NB", "OLS 24", "Poisson 24", "NB 24"),
+             statistics = "none")
+```
+
+```{r, echo=FALSE}
+print(paste("Percent change in lobster counts from 2012-2018:", round(m2_est_poi, 2),"%"))
+print(paste("Percent change in lobster counts from 2012-2024:", round(m2_est_poi_24, 2),"%"))
+```
+
+When comparing the results from 2012-2018 to 2012-2024, we can see lobster counts are continuing to increasing in MPA sites compared to non-MPA sites. The average percent change in lobster counts between 2012 and 2018 was 23% while the average percent change between 2012 and 2024 was 28% percent. However, when you include year into the model fitting and examine lobster counts in both sites over time, it becomes clear that there isn't a simple linear increase in lobsters in MPA sites. 
+
+MPA lobsters have steadily higher counts in 2018, 2019, and 2020, but then they drop below non-MPA counts in 2022 and 2023, rising back above non-MPA counts in 2024. Overall trends in lobster counts--regardless of site treatment--also vary drastically. We see a steep decline in counts in 2022, followed by a sharp increase in 2023. It is unclear what is causing this trend. One possible explanation is weather and climate conditions drove down lobster numbers across the entire central coast. There may even be lag effects of covid on researcher sampling efforts. More information would need to be obtained around the experimental design and environment to know for sure. 
+
+Overall, our models examining the effect of MPA site designation on lobster populations from 2012-2024 do still confirm a positive increase in lobsters in MPA sites. While there is inter-year variability, the overall trend of lobster populations seems to be increasing across both site treatments, with higher numbers in the MPA sites than non-MPA sites.

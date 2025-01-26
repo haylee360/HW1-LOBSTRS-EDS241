@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.26)  26 JAN 2025 13:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.26)  26 JAN 2025 14:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -776,10 +776,10 @@ Package pdftex.def Info: figures/map-5reefs.png  used on input line 234.
 [3 <./figures/map-5reefs.png>]
 
 [4]
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-1.pdf, id=50, 453.695pt x 313.17pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-1.pdf, id=51, 453.695pt x 313.17pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 430.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 429.
 (pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 
 
@@ -787,12 +787,12 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-1
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-2.pdf, id=66, 459.7175pt x 313.17pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-2.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-2.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-2.pdf  used on input line 447.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-2.pdf  used on input line 446.
 (pdftex.def)             Requested size: 459.71637pt x 313.16922pt.
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-3.pdf, id=67, 453.695pt x 313.17pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-3.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-3.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-3.pdf  used on input line 464.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-3.pdf  used on input line 463.
 (pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 
 
@@ -800,12 +800,12 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-3
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-4.pdf, id=79, 436.63126pt x 283.0575pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-4.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-4.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-4.pdf  used on input line 476.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-4.pdf  used on input line 475.
 (pdftex.def)             Requested size: 436.63019pt x 283.0568pt.
 
 
 [7 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-5-3.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 506--507
+Underfull \hbox (badness 10000) in paragraph at lines 505--506
 
  []
 
@@ -815,7 +815,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 506--507
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-8-1.pdf, id=113, 449.68pt x 315.1775pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-8-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-8-1.pdf  used on input line 576.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-8-1.pdf  used on input line 575.
 (pdftex.def)             Requested size: 449.6789pt x 315.17673pt.
 
 
@@ -823,12 +823,12 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-8-1
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-9-1.pdf, id=133, 237.88875pt x 303.1325pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-9-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-9-1.pdf  used on input line 587.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-9-1.pdf  used on input line 586.
 (pdftex.def)             Requested size: 237.88815pt x 303.13176pt.
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-10-1.pdf, id=134, 236.885pt x 303.1325pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-10-1.pdf  used on input line 595.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-10-1.pdf  used on input line 594.
 (pdftex.def)             Requested size: 236.88441pt x 303.13176pt.
 
 
@@ -836,7 +836,7 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-10-
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-11-1.pdf, id=146, 253.94875pt x 303.1325pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-11-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 603.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 602.
 (pdftex.def)             Requested size: 253.94812pt x 303.13176pt.
 
 
@@ -844,7 +844,7 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-11-
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-12-1.pdf, id=173, 259.97125pt x 307.1475pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-12-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-12-1.pdf  used on input line 611.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-12-1.pdf  used on input line 610.
 (pdftex.def)             Requested size: 259.97061pt x 307.14674pt.
 
 
@@ -852,7 +852,7 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-12-
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-14-1.pdf, id=188, 459.7175pt x 303.1325pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-14-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-14-1.pdf  used on input line 719.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-14-1.pdf  used on input line 718.
 (pdftex.def)             Requested size: 459.71637pt x 303.13176pt.
 
 
@@ -862,7 +862,7 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-14-
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-20-1.pdf, id=214, 453.695pt x 313.17pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-20-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-20-1.pdf  used on input line 869.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-20-1.pdf  used on input line 868.
 (pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 
 
@@ -870,7 +870,7 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-20-
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-21-1.pdf, id=222, 459.7175pt x 303.1325pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-21-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-21-1.pdf  used on input line 877.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-21-1.pdf  used on input line 876.
 (pdftex.def)             Requested size: 459.71637pt x 303.13176pt.
 
 
@@ -878,129 +878,149 @@ Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-21-
 
 [17{/Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-1.pdf, id=255, 448.67625pt x 315.1775pt>
+[18]
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-1.pdf, id=260, 448.67625pt x 315.1775pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-1.pdf  used on input line 1129.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-1.pdf  used on input line 1121.
 (pdftex.def)             Requested size: 448.67516pt x 315.17673pt.
-
-
-[18]
 <hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-2.pdf, id=261, 448.67625pt x 315.1775pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-2.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-2.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-2.pdf  used on input line 1139.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-2.pdf  used on input line 1131.
 (pdftex.def)             Requested size: 448.67516pt x 315.17673pt.
 
 
 [19 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-1.pdf>]
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-26-1.pdf, id=277, 453.695pt x 313.17pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-26-1.pdf, id=275, 453.695pt x 313.17pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-26-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-26-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-26-1.pdf  used on input line 1173.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-26-1.pdf  used on input line 1166.
 (pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 
 
 [20 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-25-2.pdf>]
 
 [21 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-26-1.pdf>]
-Overfull \hbox (47.25272pt too wide) in paragraph at lines 1258--1262
+Overfull \hbox (47.25272pt too wide) in paragraph at lines 1251--1255
 []\T1/lmr/m/n/10 (-20) Use the re-cent lob-ster abun-dance data with ob-ser-va-tions col-lected up un-til 2024 (\T1/lmtt/m/n/10 lobster_sbchannel_24.csv\T1/lmr/m/n/10 (-20) )
  []
 
-<figures/spiny1.png, id=308, 209.78375pt x 242.9075pt>
+<figures/spiny1.png, id=306, 209.78375pt x 242.9075pt>
 File: figures/spiny1.png Graphic file (type png)
 <use figures/spiny1.png>
-Package pdftex.def Info: figures/spiny1.png  used on input line 1278.
+Package pdftex.def Info: figures/spiny1.png  used on input line 1271.
 (pdftex.def)             Requested size: 209.78322pt x 242.90689pt.
 
 
 [22 <./figures/spiny1.png>]
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-1.pdf, id=320, 453.695pt x 313.17pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-1.pdf, id=318, 453.695pt x 313.17pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-1.pdf  used on input line 1343.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-1.pdf  used on input line 1339.
 (pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 
 
 [23]
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-2.pdf, id=326, 459.7175pt x 313.17pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-2.pdf, id=325, 459.7175pt x 313.17pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-2.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-2.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-2.pdf  used on input line 1360.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-2.pdf  used on input line 1356.
 (pdftex.def)             Requested size: 459.71637pt x 313.16922pt.
 
 
 [24 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-1.pdf>]
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-3.pdf, id=339, 453.695pt x 313.17pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-3.pdf, id=338, 453.695pt x 313.17pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-3.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-3.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-3.pdf  used on input line 1377.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-3.pdf  used on input line 1373.
 (pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 
 
 [25 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-2.pdf>]
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-4.pdf, id=352, 436.63126pt x 283.0575pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-4.pdf, id=351, 436.63126pt x 283.0575pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-4.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-4.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-4.pdf  used on input line 1389.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-4.pdf  used on input line 1385.
 (pdftex.def)             Requested size: 436.63019pt x 283.0568pt.
 
 
 [26 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-3.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 1413--1414
+Underfull \hbox (badness 10000) in paragraph at lines 1409--1410
 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-33-1.pdf, id=367, 449.68pt x 315.1775pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-33-1.pdf, id=366, 449.68pt x 315.1775pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-33-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-33-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-33-1.pdf  used on input line 1458.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-33-1.pdf  used on input line 1456.
 (pdftex.def)             Requested size: 449.6789pt x 315.17673pt.
 
 
 [27 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-30-4.pdf>]
 
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
 [28 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-33-1.pdf>]
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-35-1.pdf, id=403, 459.7175pt x 303.1325pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-35-1.pdf, id=402, 459.7175pt x 303.1325pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-35-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-35-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-35-1.pdf  used on input line 1517.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-35-1.pdf  used on input line 1524.
 (pdftex.def)             Requested size: 459.71637pt x 303.13176pt.
 
 
 [29 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-35-1.pdf>]
-<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-37-1.pdf, id=423, 459.7175pt x 303.1325pt>
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-37-1.pdf, id=421, 459.7175pt x 303.1325pt>
 File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-37-1.pdf Graphic file (type pdf)
 <use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-37-1.pdf>
-Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-37-1.pdf  used on input line 1575.
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-37-1.pdf  used on input line 1622.
 (pdftex.def)             Requested size: 459.71637pt x 303.13176pt.
 
 
-[30 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-37-1.pdf>] (./hw1-lobstrs-eds241.aux)
+[30]
+
+[31 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-37-1.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-40-1.pdf, id=451, 453.695pt x 313.17pt>
+File: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-40-1.pdf Graphic file (type pdf)
+<use hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-40-1.pdf>
+Package pdftex.def Info: hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-40-1.pdf  used on input line 1829.
+(pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
+
+
+[32]
+Overfull \vbox (50.87198pt too high) has occurred while \output is active []
+
+
+
+[33 <./hw1-lobstrs-eds241_files/figure-latex/unnamed-chunk-40-1.pdf>]
+
+[34] (./hw1-lobstrs-eds241.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 21238 strings out of 475117
- 398909 string characters out of 5762805
- 802190 words of memory out of 5000000
- 43662 multiletter control sequences out of 15000+600000
- 638423 words of font info for 175 fonts, out of 8000000 for 9000
+ 21264 strings out of 475117
+ 399511 string characters out of 5762805
+ 805242 words of memory out of 5000000
+ 43677 multiletter control sequences out of 15000+600000
+ 638315 words of font info for 174 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 69i,13n,79p,1846b,1250s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 69i,13n,79p,1015b,1184s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/hayleeoyler/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on hw1-lobstrs-eds241.pdf (30 pages, 2519604 bytes).
+Output written on hw1-lobstrs-eds241.pdf (34 pages, 2527779 bytes).
 PDF statistics:
- 551 PDF objects out of 1000 (max. 8388607)
- 409 compressed objects within 5 object streams
- 78 named destinations out of 1000 (max. 500000)
- 41134 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 600 PDF objects out of 1000 (max. 8388607)
+ 451 compressed objects within 5 object streams
+ 91 named destinations out of 1000 (max. 500000)
+ 41171 words of extra memory for PDF output out of 42996 (max. 10000000)
 
