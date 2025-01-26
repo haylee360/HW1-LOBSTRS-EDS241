@@ -191,7 +191,7 @@ spiny_counts %>%
                          alpha = 0.5,
                          scale = 1.8) +
     scale_fill_gradientn(colors = c("#2C5374","#849BB4", "#D9E7EC", "#EF8080", "#8B3A3A")) +
-    labs(title = "Lobster Counts by Reef Site with Median Counts",
+    labs(title = "Lobster Counts by Reef Site with Interquartile Range",
          x = "Lobster count", 
          y = "Reef site",
          fill = "Lobster count") +
@@ -202,10 +202,11 @@ spiny_counts %>%
     ggplot(aes(x = counts)) +
     geom_density(fill = "blue") +
     facet_wrap(~mpa) +
-    geom_vline(aes(xintercept = median(counts), fill="Median Lobster Count"), color = "red", linetype = "dashed", legend=TRUE) + 
+    geom_vline(aes(xintercept = median(counts)), color = "red", linetype = "dashed") + 
     labs(title = "Lobster Counts by MPA Status with Median Lobster Count",
          x = "Lobster Counts",
          y = "Density") +
+    annotate("text", label = "Median", x = 50, y = 0.035) +
     theme_minimal()
 
 # plot 3: Violin plot of counts grouped by year
@@ -220,10 +221,13 @@ spiny_counts %>%
     theme_minimal()
 
 # plot 4: Lobster size  grouped by site
+boxplot(mean_size ~ site, data = spiny_counts,         
+        xlab = "Site", 
+        ylab="Lobster size (mm)", 
+        main="Lobster Size by Site", 
+        col = "white")
 beeswarm(mean_size ~ site, data = spiny_counts, 
-         xlab = "Site", 
-         ylab="Lobster size (mm)", 
-         main="Lobster Size by Site") 
+, add = TRUE) 
 ```
 
 **c.** Compare means of the outcome by treatment group. Using the `tbl_summary()` function from the package [`gt_summary`](https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html)
